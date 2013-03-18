@@ -12,7 +12,7 @@
 
 Make sure you have node 8. Anything below fails on the NPM install due to bugs between NPM and PhantomJS.
 
-You could use [NVM](https://github.com/creationix/nvm)
+You could use [NVM](https://github.com/creationix/nvm):
 
 	curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 	source ~/.bash_profile
