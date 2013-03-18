@@ -4,7 +4,8 @@
 	"author": "Adaptive Lab <james.gorrie@adaptivelab.co.uk>",
 	"description": "A reusable library for recreating multiple types of charts with D3",
 	"devDependencies": {
-		"grunt": "~0.4.1"
+		"grunt": "~0.4.1",
+		"grunt-contrib-jasmine": "~0.4.1"
 	},
 	"engine": ">= node 0.8.0"
 }
