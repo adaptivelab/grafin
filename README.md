@@ -42,3 +42,11 @@ Then grab the package dependencies:
 Bower power (not sure if we should have this globally, but it's (obviously) what they recommend)
 
 	npm install bower -g
+
+
+## Tests
+
+
+Simple:
+	
+	grunt test
