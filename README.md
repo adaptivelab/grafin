@@ -46,7 +46,11 @@ Bower power (not sure if we should have this globally, but it's (obviously) what
 
 ## Tests
 
-
-Simple:
+To run Jasmine:
 	
 	grunt test
+
+TODO:
+
+* Get the Spec runner to now be deleted.
+* Use casperJS to get screenshots

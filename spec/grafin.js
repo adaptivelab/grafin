@@ -6,26 +6,32 @@ describe('Grafin', function() {
     expect((typeof chart).toLowerCase()).toBe('function');
   });
 
-  it ('Should take in SoMA data and return the right data for D3 chart layout', function() {
-    var modelStack = d3.layout.stack()
-      , layerCount = data.labels.length
+  it ('Check SoMA data is converted to D3 stack data', function() {
+    var datum
+      , preppedDatum
+      , preppedValues = []
+      , preppedData = []
       , svg = d3.select('body').append('svg')
-      , stack = d3.layout.stack()
-          .values(function(d) {
-            console.log(d);
-            return d;
-          });
-
-    // prep model data
-    modelData = d3.range(layerCount).map(function() { return modelData });
+      , stack = d3.layout.stack();
     
-    // TODO: prep data
+    // prep data
+    for (datum in data.data) {
+      preppedDatum = data.data[datum].values;
+      preppedValues = preppedDatum.map(function(d, i) { return { x: i, y: d } });
+      preppedData.push(preppedValues);
+    }
+
+    // test data is passed to the D3 stack layout okay
+    data = preppedData;
+    try {
+      stack(data);
+    } catch(e) {
+      throw new Error('Data not compatible with d3.layout.stack()');
+    }
+  });
+
+  it ('should render a graph with the correct amount of bars', function() {
     
-
-
-    // svg.selectAll('rect').data();
-    // svg.selectAll('rect').data(stack(data));
-
   });
 });
 
