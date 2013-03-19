@@ -3,31 +3,16 @@
 <body>
 <script src="components/d3/d3.js"></script>
 <script src="src/d3.chart/chart.js"></script>
-<script src="src/d3.chart/stacked-bar.js"></script>
-<script src="data/data.js"></script>
-<script src="data/modelData.js"></script>
+<script src="src/d3.chart/stacked-bar.js"></script> 
+<script src="spec/helpers/utils.js"></script>
+<script src="spec/fixtures/soma.js"></script>
+<script src="spec/fixtures/test.js"></script>
+
 <script>
-	var datum
-      , preppedDatum
-      , preppedValues = []
-      , preppedData = []
-      , modelStack = d3.layout.stack()
-      , layerCount = data.labels.length
-      , svg = d3.select('body').append('svg')
-      , modelStack = d3.layout.stack()
-      , stack = d3.layout.stack();
+	var selection = d3.select('body').append('svg')
+      , chart = d3.chart.stackedBar()
+      , data = cleanData(somaData.data);
 
-    // prep model data
-    modelData = d3.range(4).map(function() { return modelData });
-    
-    // prep data
-    for (datum in data.data) {
-      preppedDatum = data.data[datum].values;
-      preppedValues = preppedDatum.map(function(d, i) { return { x: i, y: d } });
-      preppedData.push(preppedValues);
-    }
-
-    data = preppedData;
-
-    d3.chart.stackedBar(data);
+    selection.datum(data).call(chart);
+    // selection.datum(testData).call(chart);
 </script>

@@ -6,13 +6,13 @@ module.exports = function(grunt) {
       grafin: {
         src: 'src/**/*.js',
         options: {
+          host: 'http://127.0.0.1:3000',
           vendor: [
             'components/d3/d3.js',
             'src/d3.chart/chart.js',
-            'src/d3.chart/stacked-bar.js',
-            'data/soma.js'
+            'src/d3.chart/stacked-bar.js'
           ],
-          helpers: 'spec/helpers/**/*.js',
+          helpers: ['spec/helpers/**/*.js', 'spec/fixtures/**/*.js'],
           specs: 'spec/**/*.js',
           outfile: 'test.html'
         }

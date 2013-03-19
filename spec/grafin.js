@@ -18,10 +18,14 @@ describe('Grafin', function() {
     }
   });
 
-  it ('should render a graph with the correct amount of bars', function() {
-    var selection = d3.select('body').append('svg')
-      , chart = d3.chart.stackedBar()
-      , data = cleanData(somaData.data);
+  it ('should render a graph correctly', function() {
+    var data = cleanData(somaData.data);
+
+    var el = d3.selectAll('.specSummary')[0];
+        el = el[this.id-1]; // Graphs are currently draw pre-spec, should be post
+
+    var selection = d3.select(el).append('svg')
+      , chart = d3.chart.stackedBar();
 
     selection.datum(data).call(chart);
   });
