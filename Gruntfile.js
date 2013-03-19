@@ -10,8 +10,9 @@ module.exports = function(grunt) {
             'components/d3/d3.js',
             'src/d3.chart/chart.js',
             'src/d3.chart/stacked-bar.js',
-            'data/data.js'
+            'data/soma.js'
           ],
+          helpers: 'spec/helpers/**/*.js',
           specs: 'spec/**/*.js',
           outfile: 'test.html'
         }

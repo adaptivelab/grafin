@@ -7,22 +7,10 @@ describe('Grafin', function() {
   });
 
   it ('Check SoMA data is converted to D3 stack data', function() {
-    var datum
-      , preppedDatum
-      , preppedValues = []
-      , preppedData = []
-      , svg = d3.select('body').append('svg')
-      , stack = d3.layout.stack();
-    
-    // prep data
-    for (datum in data.data) {
-      preppedDatum = data.data[datum].values;
-      preppedValues = preppedDatum.map(function(d, i) { return { x: i, y: d } });
-      preppedData.push(preppedValues);
-    }
+    var stack = d3.layout.stack()
+      , data = cleanData(somaData.data); // clean data (from helpers/utils)
 
     // test data is passed to the D3 stack layout okay
-    data = preppedData;
     try {
       stack(data);
     } catch(e) {
@@ -31,7 +19,11 @@ describe('Grafin', function() {
   });
 
   it ('should render a graph with the correct amount of bars', function() {
-    
+    var selection = d3.select('body').append('svg')
+      , chart = d3.chart.stackedBar()
+      , data = cleanData(somaData.data);
+
+    selection.datum(data).call(chart);
   });
 });
 
