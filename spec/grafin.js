@@ -4,6 +4,7 @@ describe('Grafin', function() {
   var el
     , selection
     , chart
+    , callback
     , data = formatData(somaData.data); // from helpers/utils
 
   it ('Should return a stacked bargraph for D3 useage', function() {
@@ -22,32 +23,38 @@ describe('Grafin', function() {
     }
   });
 
-  it ('Should render a graph correctly', function() {
+  it ('Should render a graph with the correct amount of data bars', function() {
     var dateFormat = d3.time.format('%b %d')
       , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
-    
-     // Graphs are currently draw pre-spec, should be post
 
-    
     chart = d3.chart
       .stackedBar()
       .xLabels(labels);
+
+    callback = function(renderedChart) {
+      expect(renderedChart.selectAll('rect')[0].length).toBe(data.length * data[0].length);
+    }
   });
 
-  // If you set chart, it will be rendered. 
+  // If you set chart, it will be rendered
+  // Then it will be know as renderedChart
   it ('Is looking for the last test graph to render'); // Hack
   beforeEach(function() {
     if (chart) {
+      var renderedChart;
+      
       el = d3.selectAll('.specSummary')[0];
       el = el[this.id-1];
 
       selection = d3.select(el).append('svg');
-      selection
+      renderedChart = selection
         .datum(data)
         .call(chart);
 
+      if (callback) { callback(renderedChart); }
       chart = null;
       selection = null;
+      callback = null;
     }
   });
 });
