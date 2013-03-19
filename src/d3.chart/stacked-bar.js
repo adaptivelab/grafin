@@ -1,4 +1,6 @@
 d3.chart.stackedBar = function(options) {
+  'use strict';
+
   var option
     , options = options || {} 
     , defaults = {
