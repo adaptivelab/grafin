@@ -1,4 +1,4 @@
-function cleanData(data) {
+function formatData(data) {
   var datum, preppedValues, preppedDatum, preppedData = [];
   for (datum in data) {
     preppedDatum = data[datum].values;

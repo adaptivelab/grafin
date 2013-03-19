@@ -50,7 +50,6 @@ To run Jasmine:
 	
 	grunt test
 
-TODO:
+This will run the Jasmine tests in your terminal as well as create the SpecRunner.html in the root directory.
 
-* Get the Spec runner to now be deleted.
-* Use casperJS to get screenshots
+You can either open the file locally, or you can just [view the file on the local server](http://127.0.0.1:9001/SpecRunner.html).

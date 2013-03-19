@@ -1,8 +1,8 @@
-d3.chart.stackedBar = function(data, options) {
+d3.chart.stackedBar = function(options) {
   var option
     , options = options || {} 
     , defaults = {
-        width: 960,
+        width: 1000,
         height: 500,
         margin: { top: 40, right: 10, bottom: 20, left: 10 },
         colorRange: { bottom: '#aad', top: '#556' }
@@ -12,7 +12,7 @@ d3.chart.stackedBar = function(data, options) {
     if (!options[options]) options[option] = defaults[option];
   }
   
-  var renderChart = function(data) {
+  function renderChart(data) {
     var n = data.length,
         m = data[0].length,
         stack = d3.layout.stack(),
@@ -38,6 +38,7 @@ d3.chart.stackedBar = function(data, options) {
 
       var xAxis = d3.svg.axis()
           .scale(x)
+          .tickValues(options.xLabels)
           .tickSize(0)
           .tickPadding(6)
           .orient('bottom');
@@ -89,6 +90,15 @@ d3.chart.stackedBar = function(data, options) {
       function transitionStacked() {
         y.domain([0, yStackMax]);
 
+        var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient('left');
+
+        svg.append('g')
+          .attr('class', 'y axis')
+          .attr('transform', 'translate(' + margin.left + ',0)')
+          .call(yAxis);
+
         rect.transition()
             .duration(500)
             .delay(function(d, i) { return i * 10; })
@@ -98,12 +108,15 @@ d3.chart.stackedBar = function(data, options) {
             .attr('x', function(d) { return x(d.x); })
             .attr('width', x.rangeBand());
       }
-
-      transitionStacked();
     }
 
   var chart = function(selection) {
     selection.each(renderChart);
+  }
+
+  chart.xLabels = function(labels) {
+    options.xLabels = labels;
+    return chart;
   }
 
   return chart;

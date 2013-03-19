@@ -2,6 +2,5 @@
 components/
 node_modules/
 
-
-test.html
+SpecRunner.html
 .DS_Store

@@ -8,7 +8,7 @@ describe('Grafin', function() {
 
   it ('Check SoMA data is converted to D3 stack data', function() {
     var stack = d3.layout.stack()
-      , data = cleanData(somaData.data); // clean data (from helpers/utils)
+      , data = formatData(somaData.data); // from helpers/utils
 
     // test data is passed to the D3 stack layout okay
     try {
@@ -19,15 +19,19 @@ describe('Grafin', function() {
   });
 
   it ('should render a graph correctly', function() {
-    var data = cleanData(somaData.data);
-
-    var el = d3.selectAll('.specSummary')[0];
-        el = el[this.id-1]; // Graphs are currently draw pre-spec, should be post
+    var el = d3.selectAll('.specSummary')[0]
+      , dateFormat = d3.time.format('%b %d')
+      , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+    
+    el = el[this.id-1]; // Graphs are currently draw pre-spec, should be post
 
     var selection = d3.select(el).append('svg')
-      , chart = d3.chart.stackedBar();
+      , chart = d3.chart.stackedBar()
+                  .xLabels(labels);
 
-    selection.datum(data).call(chart);
+    selection
+      .datum(formatData(somaData.data))
+      .call(chart);
   });
 });
 
