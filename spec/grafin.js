@@ -27,9 +27,8 @@ describe('Grafin', function() {
     var dateFormat = d3.time.format('%b %d')
       , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
 
-    chart = d3.chart
-      .bar()
-      .xLabels(labels);
+    chart = d3.chart.bar();
+      // .xLabels(labels);
 
     callback = function(selection, chart) {
       expect(selection.selectAll('rect')[0].length).toBe(data.length * data[0].length);

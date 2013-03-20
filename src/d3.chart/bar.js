@@ -1,15 +1,6 @@
 d3.chart.bar = function(options, data) {
-  // this is what I would like it to be
-  var chart = d3.chart();
-  chart
-    .xMax(xMax)
-    .yMax(yMax)
-    .render({
-      stacked: function() {},
-      grouped: function() {}
-    });
-
-  /* Things that can be abstracted
+  /*
+  Things that can be abstracted
   - chart SVG element drawing
   - xAxis
   - yAxis
@@ -21,8 +12,23 @@ d3.chart.bar = function(options, data) {
   - yMax
   - Rendering
   */
+  // var bar = function(selection) {
+  //   var chart = d3.chart();
+  //   selection.each(function(datum) {
+  //     var data = d3.layout.stack()(datum)
+  //       , yGroupMax = d3.max(data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
+  //       , yStackMax = d3.max(data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-
+  //     chart
+  //       .datum(data)
+  //       .yMax(yGroupMax)
+  //       .render({
+  //         stacked: function() {},
+  //         grouped: function() {}
+  //       }).draw();
+  //   });
+  // }
+  // return bar;
   'use strict';
 
   var option
@@ -134,10 +140,7 @@ d3.chart.bar = function(options, data) {
       chart.setGrouped = setGrouped;
     }
 
-  var chart = function(selection) {
-    selection.each(renderChart);
-  }
-
+  var chart = function(selection) { selection.each(renderChart); }
   chart.xLabels = function(labels) {
     options.xLabels = labels;
     return chart;
