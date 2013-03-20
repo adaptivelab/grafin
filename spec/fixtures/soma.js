@@ -1,4 +1,4 @@
-var data = {
+var somaData = {
     "labels": [
         "2013-02-27",
         "2013-02-28",

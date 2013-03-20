@@ -50,7 +50,14 @@ To run Jasmine:
 	
 	grunt test
 
-TODO:
+This will run the Jasmine tests in your terminal as well as create the SpecRunner.html in the root directory.
 
-* Get the Spec runner to now be deleted.
-* Use casperJS to get screenshots
+You can either open the file locally, or you can just [view the file on the local server](http://127.0.0.1:9001/SpecRunner.html).
+
+There are a few things that happen after each spec is run:
+
+* Every test that is run there is a check to see if you have set the `chart` variable, if so the chart will be rendered.
+
+* You can then set `callback` and that will run after the chart has rendered and pass the renderedChart to it as an argument.
+
+One GOTCHA / BUGFIX is that if you fail in the callback it fails in the next test. We'll be getting onto this ASAP.
