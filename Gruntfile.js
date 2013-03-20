@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           vendor: [
             'components/d3/d3.js',
             'src/d3.chart/chart.js',
-            'src/d3.chart/stacked-bar.js'
+            'src/d3.chart/bar.js'
           ],
           helpers: ['spec/helpers/**/*.js', 'spec/fixtures/**/*.js'],
           specs: 'spec/**/*.js',
@@ -32,5 +32,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-connect');
 
-  grunt.registerTask('test', ['connect', 'jasmine:grafin:build']);
+  grunt.registerTask('test', ['jasmine:grafin:build', 'connect']);
 } 

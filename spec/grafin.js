@@ -8,7 +8,7 @@ describe('Grafin', function() {
     , data = formatData(somaData.data); // from helpers/utils
 
   it ('Should return a stacked bargraph for D3 useage', function() {
-    var chart = d3.chart.stackedBar;
+    var chart = d3.chart.bar;
     expect((typeof chart).toLowerCase()).toBe('function');
   });
 
@@ -28,11 +28,11 @@ describe('Grafin', function() {
       , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
 
     chart = d3.chart
-      .stackedBar()
+      .bar()
       .xLabels(labels);
 
-    callback = function(renderedChart) {
-      expect(renderedChart.selectAll('rect')[0].length).toBe(data.length * data[0].length);
+    callback = function(selection, chart) {
+      expect(selection.selectAll('rect')[0].length).toBe(data.length * data[0].length);
     }
   });
 
@@ -51,7 +51,7 @@ describe('Grafin', function() {
         .datum(data)
         .call(chart);
 
-      if (callback) { callback(renderedChart); }
+      if (callback) { callback(selection, chart); }
       chart = null;
       selection = null;
       callback = null;
