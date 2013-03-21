@@ -92,7 +92,7 @@ d3.chart.bar = function(data, options) {
       this.svg.append('g')
           .attr('class', 'd3-chart-x d3-chart-axis')
           .attr('transform', 'translate(0,' + this.height + ')')
-          .call(function() { return self.xAxis; });
+          .call(this.xAxis);
 
       this.setGrouped();
       return this;
