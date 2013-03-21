@@ -94,32 +94,38 @@ d3.chart.bar = function(data, options) {
           .attr('transform', 'translate(0,' + this.height + ')')
           .call(this.xAxis);
 
-      this.setGrouped();
+      this.setTo(this.o.type);
       return this;
     },
 
-    setStacked: function() {
-      var self = this;
-      this.y.domain([0, this.yMax.stacked]);
-      this.renderYAxis();
-
-      this.rect
-        .attr('x', function(d) { return self.x(d.x); })
-        .attr('y', function(d) { return self.y(d.y0 + d.y); })
-        .attr('width', self.x.rangeBand())
-        .attr('height', function(d) { return self.y(d.y0) - self.y(d.y0 + d.y); });
+    setTo: function(opt) {
+      this.setToOpts[opt].call(this);
     },
 
-    setGrouped: function() {
-      var self = this;
-      this.y.domain([0, this.yMax.grouped]);
+    setToOpts: {
+      stacked: function() {
+        var self = this;
+        this.y.domain([0, this.yMax.stacked]);
+        this.renderYAxis();
+
+        this.rect
+          .attr('x', function(d) { return self.x(d.x); })
+          .attr('y', function(d) { return self.y(d.y0 + d.y); })
+          .attr('width', self.x.rangeBand())
+          .attr('height', function(d) { return self.y(d.y0) - self.y(d.y0 + d.y); });
+      },
       
-      this.renderYAxis();
-      this.rect
-          .attr('x', function(d, i, j) { return (self.x(d.x) + self.x.rangeBand() / self.n * j) + 10; })
-          .attr('width', self.x.rangeBand() / self.n)
-          .attr('y', function(d) { return self.y(d.y); })
-          .attr('height', function(d) { return self.height - self.y(d.y); });
+      grouped: function() {
+        var self = this;
+        this.y.domain([0, this.yMax.grouped]);
+        
+        this.renderYAxis();
+        this.rect
+            .attr('x', function(d, i, j) { return (self.x(d.x) + self.x.rangeBand() / self.n * j) + 10; })
+            .attr('width', self.x.rangeBand() / self.n)
+            .attr('y', function(d) { return self.y(d.y); })
+            .attr('height', function(d) { return self.height - self.y(d.y); });
+      }
     },
 
     renderYAxis: function() {
