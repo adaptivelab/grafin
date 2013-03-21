@@ -3,14 +3,14 @@ d3.chart.bar = function(data, options) {
   var options = options || {};
 
   var Chart = function(data, options) {
-    // set data
     this.setOptions(options);
-
     this.data = d3.layout.stack()(data);
+
     this.n = data.length;
     this.m = data[0].length;
     this.margin = this.o.margin;
     this.width = (this.o.width - this.margin.left - this.margin.right);
+    console.log(this.width)
     this.height = (this.o.height - this.margin.top - this.margin.bottom);
 
     this.x = d3.scale.ordinal()
