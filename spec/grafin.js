@@ -30,7 +30,6 @@ describe('Grafin', function() {
     el = d3.selectAll('.specSummary')[0];
     el = el[this.id-1];
     var chart = d3.chart.bar(data, {
-      width: 100,
       type: 'grouped',
       xLabels: labels
     }).render(el);

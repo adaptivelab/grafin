@@ -8,10 +8,6 @@ d3.chart.bar = function(data, options) {
 
     this.n = data.length;
     this.m = data[0].length;
-    this.margin = this.o.margin;
-    this.width = (this.o.width - this.margin.left - this.margin.right);
-    console.log(this.width)
-    this.height = (this.o.height - this.margin.top - this.margin.bottom);
 
     this.x = d3.scale.ordinal()
       .domain(d3.range(this.m))
@@ -32,6 +28,16 @@ d3.chart.bar = function(data, options) {
       .tickSize(1)
       .tickPadding(10)
       .orient('bottom');
+
+    this.yAxis = d3.svg.axis()
+      .scale(this.y)
+      .tickSize(1)
+      .tickPadding(0)
+      .orient('left');
+
+    this.color = d3.scale.linear()
+      .domain([0, this.n - 1])
+      .range([this.o.colorRange.bottom, this.o.colorRange.top]);
   }
 
   Chart.prototype = {
@@ -41,9 +47,6 @@ d3.chart.bar = function(data, options) {
     data: null,
     defaults: {
       type: 'stacked',
-      width: 1000,
-      height: 500,
-      margin: { top: 40, right: 10, bottom: 20, left: 10 },
       colorRange: { bottom: '#c74b43', top: '#ff5146' },
       xLabels: null
     },
@@ -66,33 +69,22 @@ d3.chart.bar = function(data, options) {
     },
 
     chart: function(data) {
-      var self = this
-        , layers = this.data;
-
-      var color = d3.scale.linear()
-          .domain([0, this.n - 1])
-          .range([this.o.colorRange.bottom, this.o.colorRange.top]);
-
-      this.yAxis = d3.svg.axis()
-          .scale(this.y)
-          .tickSize(1)
-          .tickPadding(0)
-          .orient('left');
+      var self = this;
 
       this.svg = d3.select(this.el).append('svg')
-          .attr('class', 'd3-chart d3-chart-bar')
-          .attr('width', this.width + this.margin.left + this.margin.right)
-          .attr('height', this.height + this.margin.top + this.margin.bottom)
-        .append('g')
-          .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-      
-      var layer = this.svg.selectAll('.d3-chart-layer')
+        .attr('class', 'd3-chart d3-chart-bar')
+        .attr('width', this.width + this.margin.left + this.margin.right)
+        .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .append('g')
+        .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+      this.layer = this.svg.selectAll('.d3-chart-layer')
           .data(this.data)
         .enter().append('g')
           .attr('class', 'd3-chart-layer')
-          .style('fill', function(d, i) { return color(i); });
+          .style('fill', function(d, i) { return self.color(i); });
 
-      this.rect = layer.selectAll('rect')
+      this.rect = this.layer.selectAll('rect')
           .data(function(d) { return d; })
         .enter().append('rect') 
           .attr('data-value', function(d) { return d.y; });
@@ -134,7 +126,7 @@ d3.chart.bar = function(data, options) {
       this.svg.selectAll('.d3-chart-y').remove();
       this.svg.append('g')
         .attr('class', 'd3-chart-y d3-chart-axis')
-        .attr('transform', 'translate(' + this.o.margin.left + ', 0)')
+        .attr('transform', 'translate(' + this.margin.left + ', 0)')
         .call(this.yAxis);
     },
   }
