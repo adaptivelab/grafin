@@ -1,95 +1,103 @@
-d3.chart.bar = function(options, data) {
-  /*
-  Things that can be abstracted
-  - chart SVG element drawing
-  - xAxis
-  - yAxis
-  - xScale
-  - yScale
-
-  Things to set
-  - xMax
-  - yMax
-  - Rendering
-  */
-  // var bar = function(selection) {
-  //   var chart = d3.chart();
-  //   selection.each(function(datum) {
-  //     var data = d3.layout.stack()(datum)
-  //       , yGroupMax = d3.max(data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
-  //       , yStackMax = d3.max(data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
-
-  //     chart
-  //       .datum(data)
-  //       .yMax(yGroupMax)
-  //       .render({
-  //         stacked: function() {},
-  //         grouped: function() {}
-  //       }).draw();
-  //   });
-  // }
-  // return bar;
+d3.chart.bar = function(data, options) {
   'use strict';
+  var options = options || {};
 
-  var option
-    , options = options || {} 
-    , defaults = {
-        width: 1000,
-        height: 500,
-        margin: { top: 40, right: 10, bottom: 20, left: 10 },
-        colorRange: { bottom: '#C74B43', top: '#FF5146' }
-      };
+  var Chart = function(data, options) {
+    var option;
 
-  for (option in defaults) {
-    if (!options[options]) options[option] = defaults[option];
+    // set data
+    for (option in this.defaults) {
+      if (!options[options]) options[option] = this.defaults[option];
+    }
+    this.o = options;
+
+    this.data = d3.layout.stack()(data);
+    this.n = data.length;
+    this.m = data[0].length;
+    this.width = (this.o.width - this.o.margin.left - this.o.margin.right)
+    this.height = (this.o.height - this.o.margin.top - this.o.margin.bottom);
+    this.x = this.x();
+    this.y = this.y();
+    this.yMax = this.yMax();
+    this.xAxis = this.xAxis();
   }
-  
-  function renderChart(data) {
-    var n = data.length,
-        m = data[0].length,
-        stack = d3.layout.stack(),
-        layers = stack(data),
-        yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
-        yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-      var margin = options.margin,
-          width = (options.width - margin.left - margin.right),
-          height = (options.height - margin.top - margin.bottom);
-
-      var x = d3.scale.ordinal()
-          .domain(d3.range(m))
-          .rangeRoundBands([0, width], .08);
-
-      var y = d3.scale.linear()
-          .domain([0, yStackMax])
-          .range([height, 0]);
-
-      var color = d3.scale.linear()
-          .domain([0, n - 1])
-          .range([options.colorRange.bottom, options.colorRange.top]);
-
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .tickValues(options.xLabels)
+  Chart.prototype = {
+    o: {},
+    n: null,
+    m: null,
+    data: null,
+    x: function() {
+      return d3.scale.ordinal()
+        .domain(d3.range(this.m))
+        .rangeRoundBands([0, this.width], .08);
+    },
+    y: function() {
+      return d3.scale.linear()
+          .domain([0, this.yMax])
+          .range([this.height, 0]);
+    },
+    yMax: function() {
+      return d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
+    },
+    xAxis: function() {
+      return d3.svg.axis()
+          .scale(this.x)
+          .tickValues(this.o.xLabels)
           .tickSize(1)
           .tickPadding(10)
           .orient('bottom');
+    },
+    defaults: {
+      type: 'stacked',
+      width: 1000,
+      height: 500,
+      margin: { top: 40, right: 10, bottom: 20, left: 10 },
+      colorRange: { bottom: '#c74b43', top: '#ff5146' },
+      xLabels: null
+    },
+
+    render: function(el) {
+      var self = this;
+      this.el = el;
+      d3.select(this.el)
+        .datum(this.data)
+        .call(function(selection) {
+          self.createChart(selection);
+        });
+    },
+
+    createChart: function(selection) {
+      var self = this;
+      selection.each(function(data) {
+        self.chart(data);
+      });
+    },
+
+    chart: function(data) {
+      var self = this
+        , layers = this.data
+        , yGroupMax = d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); });
+
+      var color = d3.scale.linear()
+          .domain([0, this.n - 1])
+          .range([this.o.colorRange.bottom, this.o.colorRange.top]);
 
       var yAxis = d3.svg.axis()
-          .scale(y)
+          .scale(this.y)
           .tickSize(1)
           .tickPadding(0)
           .orient('left');
 
-      var svg = d3.select(this)
+      var svg = d3.select(this.el).append('svg')
           .attr('class', 'd3-chart d3-chart-bar')
-          .attr('width', width + margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom)
+          .attr('width', this.width + this.o.margin.left + this.o.margin.right)
+          .attr('height', this.height + this.o.margin.top + this.o.margin.bottom)
         .append('g')
-          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+          .attr('transform', 'translate(' + this.o.margin.left + ',' + this.o.margin.top + ')');
       
       var layer = svg.selectAll('.d3-chart-layer')
-          .data(layers)
+          .data(this.data)
         .enter().append('g')
           .attr('class', 'd3-chart-layer')
           .style('fill', function(d, i) { return color(i); });
@@ -101,50 +109,43 @@ d3.chart.bar = function(options, data) {
 
       svg.append('g')
           .attr('class', 'd3-chart-x d3-chart-axis')
-          .attr('transform', 'translate(0,' + height + ')')
-          .call(xAxis);
+          .attr('transform', 'translate(0,' + this.height + ')')
+          .call(function() { return self.xAxis; });
 
       function setStacked() {
-        y.domain([0, yStackMax]);
-        
+        self.y.domain([0, self.yMax]);
         renderYAxis();
+
         rect
-          .attr('x', function(d) { return x(d.x); })
-          .attr('y', function(d) { return y(d.y0 + d.y); })
-          .attr('width', x.rangeBand())
-          .attr('height', function(d) { return y(d.y0) - y(d.y0 + d.y); });
+          .attr('x', function(d) { return self.x(d.x); })
+          .attr('y', function(d) { return self.y(d.y0 + d.y); })
+          .attr('width', self.x.rangeBand())
+          .attr('height', function(d) { return self.y(d.y0) - self.y(d.y0 + d.y); });
       }
 
-      function setGrouped() {
-        y.domain([0, yGroupMax]);
+      // function setGrouped() {
+      //   y.domain([0, yGroupMax]);
         
-        renderYAxis();
-        rect
-            .attr('x', function(d, i, j) { return (x(d.x) + x.rangeBand() / n * j) + options.axis.padding; })
-            .attr('width', x.rangeBand() / n)
-            .attr('y', function(d) { return y(d.y); })
-            .attr('height', function(d) { return height - y(d.y); });
-      }
+      //   renderYAxis();
+      //   rect
+      //       .attr('x', function(d, i, j) { return (x(d.x) + x.rangeBand() / n * j) + options.axis.padding; })
+      //       .attr('width', x.rangeBand() / n)
+      //       .attr('y', function(d) { return y(d.y); })
+      //       .attr('height', function(d) { return height - y(d.y); });
+      // }
 
       function renderYAxis() {
         svg.selectAll('.d3-chart-y').remove();
         svg.append('g')
           .attr('class', 'd3-chart-y d3-chart-axis')
-          .attr('transform', 'translate(' + margin.left + ', 0)')
+          .attr('transform', 'translate(' + self.o.margin.left + ', 0)')
           .call(yAxis);
       }
 
       setStacked();
-      
-      chart.setStacked = setStacked;
-      chart.setGrouped = setGrouped;
+      return this;
     }
-
-  var chart = function(selection) { selection.each(renderChart); }
-  chart.xLabels = function(labels) {
-    options.xLabels = labels;
-    return chart;
   }
-
-  return chart;
+  
+  return new Chart(data, options);
 }
