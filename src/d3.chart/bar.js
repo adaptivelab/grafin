@@ -4,11 +4,7 @@ d3.chart.bar = function(data, options) {
 
   var Chart = function(data, options) {
     // set data
-    var option;
-    for (option in this.defaults) {
-      if (!options[options]) options[option] = this.defaults[option];
-    }
-    this.o = options;
+    this.setOptions(options);
 
     this.data = d3.layout.stack()(data);
     this.n = data.length;
@@ -16,7 +12,6 @@ d3.chart.bar = function(data, options) {
     this.margin = this.o.margin;
     this.width = (this.o.width - this.margin.left - this.margin.right);
     this.height = (this.o.height - this.margin.top - this.margin.bottom);
-    
 
     this.x = d3.scale.ordinal()
       .domain(d3.range(this.m))
@@ -143,6 +138,7 @@ d3.chart.bar = function(data, options) {
         .call(this.yAxis);
     },
   }
-  
+
+  d3.chart.add(Chart);
   return new Chart(data, options);
 }

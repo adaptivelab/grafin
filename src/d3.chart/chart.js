@@ -1,46 +1,17 @@
-d3.chart = d3.chart || function() {
-  var o = {
-    data: null,
-    xMax: null,
-    yMax: null,
-    draw: null,
-    render: null
+d3.chart = d3.chart || function() {};
+d3.chart.add = function(chart) {
+  var prop;
+  for (prop in this.prototype) {
+    console.log(prop);
+    if (!chart.prototype[prop]) chart.prototype[prop] = this.prototype[prop];
   }
-
-  var chart = function() {
-
+}
+d3.chart.prototype = {
+  setOptions: function(options) {
+    var option;
+    for (option in this.defaults) {
+      if (!options[options]) options[option] = this.defaults[option];
+    }
+    this.o = options;
   }
-
-  chart.xAxis = function() {
-    
-  }
-
-  chart.datum = function(data) {
-    o.data = data;
-    return chart;
-  }
-
-  chart.xMax = function(max) {
-    o.xMax = max;
-    return chart;
-  }
-
-  chart.yMax = function(max) {
-    o.yMax = max;
-    return chart;
-  }
-
-  chart.render = function(renderer) {
-    o.render = renderer;
-    return chart;
-  }
-
-  chart.draw = function() {
-    
-
-
-    return chart;
-  }
-  
-  return chart;
-};
+}
