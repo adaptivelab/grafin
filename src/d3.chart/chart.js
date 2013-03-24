@@ -6,6 +6,7 @@ d3.chart.add = function(chart) {
   }
 }
 d3.chart.prototype = {
+  primaryClass: 'd3-chart',
   defaultsCommon: {
     width: 1000,
     height: 500,

@@ -45,6 +45,7 @@ d3.chart.bar = function(data, options) {
     n: null,
     m: null,
     data: null,
+    class: ' d3-chart-bar',
     defaults: {
       type: 'stacked',
       colorRange: { bottom: '#c74b43', top: '#ff5146' },
@@ -59,6 +60,8 @@ d3.chart.bar = function(data, options) {
         .call(function(selection) {
           self.createChart(selection);
         });
+
+      return this;
     },
 
     createChart: function(selection) {
@@ -72,7 +75,7 @@ d3.chart.bar = function(data, options) {
       var self = this;
 
       this.svg = d3.select(this.el).append('svg')
-        .attr('class', 'd3-chart d3-chart-bar')
+        .attr('class', this.primaryClass + ' ' + this.class)
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
