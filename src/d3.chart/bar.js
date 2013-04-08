@@ -9,35 +9,10 @@ d3.chart.bar = function(data, options) {
     this.n = data.length;
     this.m = data[0].length;
 
-    this.x = d3.scale.ordinal()
-      .domain(d3.range(this.m))
-      .rangeRoundBands([0, this.width], .08);
-
-    this.y = d3.scale.linear()
-      .domain([0, this.yMax])
-      .range([this.height, 0]);
-    
-    this.yMax = {
-      stacked: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); }),
-      grouped: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
-    }
-
-    this.xAxis = d3.svg.axis()
-      .scale(this.x)
-      .tickValues(this.o.xLabels)
-      .tickSize(1)
-      .tickPadding(10)
-      .orient('bottom');
-
-    this.yAxis = d3.svg.axis()
-      .scale(this.y)
-      .tickSize(1)
-      .tickPadding(0)
-      .orient('left');
-
-    this.color = d3.scale.linear()
-      .domain([0, this.n - 1])
-      .range([this.o.colorRange.bottom, this.o.colorRange.top]);
+    this.setRanges();
+    this.setMaxes();
+    this.setAxes();
+    this.setColors();
   }
 
   Chart.prototype = {
@@ -48,8 +23,46 @@ d3.chart.bar = function(data, options) {
     class: ' d3-chart-bar',
     defaults: {
       type: 'stacked',
-      colorRange: { bottom: '#c74b43', top: '#ff5146' },
+      colorRange: { bottom: '#212121', top: '#555555' },
       xLabels: null
+    },
+
+    setRanges: function() {
+      this.x = d3.scale.ordinal()
+        .domain(d3.range(this.m))
+        .rangeRoundBands([0, this.width], .08);
+
+      this.y = d3.scale.linear()
+        .domain([0, this.yMax])
+        .range([this.height, 0]);
+    },
+
+    setMaxes: function() {
+      this.yMax = {
+        stacked: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); }),
+        grouped: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
+      }
+    },
+
+    setAxes: function() {
+      this.xAxis = d3.svg.axis()
+        .scale(this.x)
+        .tickValues(this.o.xLabels)
+        .tickSize(1)
+        .tickPadding(10)
+        .orient('bottom');
+
+      this.yAxis = d3.svg.axis()
+        .scale(this.y)
+        .tickSize(1)
+        .tickPadding(0)
+        .orient('left');
+    },
+
+    setColors: function() {
+      this.color = d3.scale.linear()
+        .domain([0, this.n - 1])
+        .range([this.o.colorRange.bottom, this.o.colorRange.top]);
     },
 
     render: function(el) {

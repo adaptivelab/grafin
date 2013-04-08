@@ -23,7 +23,10 @@ d3.chart.prototype = {
   },
 
   // add interface methods
-  setAxis: function() {},
+  setRanges: function() {},
+  setMaxes: function() {},
+  setAxes: function() {},
+  setColors: function() {},
 
   setCommon: function() {
     var prop;
