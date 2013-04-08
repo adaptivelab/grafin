@@ -4,11 +4,8 @@ d3.chart.bar = function(data, options) {
 
   var Chart = function(data, options) {
     this.setOptions(options);
-    this.data = d3.layout.stack()(data);
 
-    this.n = data.length;
-    this.m = data[0].length;
-
+    this.setData(data);
     this.setRanges();
     this.setMaxes();
     this.setAxes();
@@ -17,8 +14,8 @@ d3.chart.bar = function(data, options) {
 
   Chart.prototype = {
     o: {},
-    n: null,
-    m: null,
+    layerCount: 0,
+    sectionsPerLayer: null,
     data: null,
     class: ' d3-chart-bar',
     defaults: {
@@ -27,9 +24,15 @@ d3.chart.bar = function(data, options) {
       xLabels: null
     },
 
+    setData: function(data) {
+      this.data = d3.layout.stack()(data);
+      this.layerCount = data.length;
+      this.sectionsPerLayer = data[0].length;
+    },
+
     setRanges: function() {
       this.x = d3.scale.ordinal()
-        .domain(d3.range(this.m))
+        .domain(d3.range(this.sectionsPerLayer))
         .rangeRoundBands([0, this.width], .08);
 
       this.y = d3.scale.linear()
@@ -61,7 +64,7 @@ d3.chart.bar = function(data, options) {
 
     setColors: function() {
       this.color = d3.scale.linear()
-        .domain([0, this.n - 1])
+        .domain([0, this.layerCount - 1])
         .range([this.o.colorRange.bottom, this.o.colorRange.top]);
     },
 
@@ -139,8 +142,8 @@ d3.chart.bar = function(data, options) {
         
         this.renderYAxis();
         this.rect
-            .attr('x', function(d, i, j) { return (self.x(d.x) + self.x.rangeBand() / self.n * j) + 10; })
-            .attr('width', self.x.rangeBand() / self.n)
+            .attr('x', function(d, i, j) { return (self.x(d.x) + self.x.rangeBand() / self.layerCount * j) + 10; })
+            .attr('width', self.x.rangeBand() / self.layerCount)
             .attr('y', function(d) { return self.y(d.y); })
             .attr('height', function(d) { return self.height - self.y(d.y); });
       }
