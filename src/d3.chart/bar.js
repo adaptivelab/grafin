@@ -58,7 +58,7 @@ d3.chart.bar = function(data, options) {
       this.yAxis = d3.svg.axis()
         .scale(this.y)
         .tickSize(1)
-        .tickPadding(0)
+        .tickPadding(2)
         .orient('left');
     },
 

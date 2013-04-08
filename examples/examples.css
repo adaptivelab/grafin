@@ -30,3 +30,7 @@ h3 {
 .examples li:first-child {
 	margin-top: 0;
 }
+
+.d3-chart-axis {
+	font-size: 10px;
+}
