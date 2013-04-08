@@ -55,6 +55,8 @@ d3.chart.bar = function(data, options) {
     render: function(el) {
       var self = this;
       this.el = el;
+
+      // Comment code here (add D3 docs links)
       d3.select(this.el)
         .datum(this.data)
         .call(function(selection) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Bootstrap</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+
+		<script src="../components/d3/d3.js"></script>
+
+		<script src="../src/d3.chart/chart.js"></script>
+		<script src="../src/d3.chart/bar.js"></script>
+
+		<script src="../spec/helpers/utils.js"></script>
+  		<script src="../spec/fixtures/soma.js"></script>
+	</head>
+
+	<body>
+		<h1>Grafin</h1>
+		<h2>Examples</h2>
+
+		<ul>
+			<li>
+				<div class="graph"></div>
+				<script>
+					var data = formatData(somaData.data);
+					var dateFormat = dateFormat = d3.time.format('%b %d');
+					var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+					var el = d3.select('.graph')[0][0];
+
+					console.log(el);
+
+					var chart = d3.chart.bar(data, {
+						type: 'grouped',
+						xLabels: labels
+					}).render(el);
+				</script>
+			</li>
+		</ul>
+	</body>
+</html>

@@ -22,6 +22,8 @@ describe('Graphin', function() {
       var stack = d3.layout.stack();
 
       // test data is passed to the D3 stack layout okay
+      // TODO: say why we did this
+      // Perhaps try do this with jasmine.notToThrow
       try {
         stack(data);
       } catch(e) {
@@ -30,6 +32,7 @@ describe('Graphin', function() {
     });
 
     it ('Should render a graph with the correct amount of data bars', function() {
+      // test public interface and rendering
       var dateFormat = d3.time.format('%b %d')
         , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
 

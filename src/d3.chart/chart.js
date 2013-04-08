@@ -22,6 +22,9 @@ d3.chart.prototype = {
     this.setCommon();
   },
 
+  // add interface methods
+  setAxis: function() {},
+
   setCommon: function() {
     var prop;
     for (prop in this.defaultsCommon) {
