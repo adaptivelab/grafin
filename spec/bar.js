@@ -10,7 +10,7 @@ describe('Graphin', function() {
       el = d3.selectAll('.specSummary')[0];
       el = el[this.id-1];
       // TODO: This doesn't seem to work for the first one.
-      // eed to revise this so that it renders post test
+      // Revise this so that it renders post test
     });
 
     it ('Should render a new Chart.Bar object', function() {
