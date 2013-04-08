@@ -10,7 +10,7 @@
 
 ## Getting started
 
-Make sure you have node 8. Anything below fails on the NPM install due to bugs between NPM and PhantomJS.
+Make sure you have Node 8. Any newer versions fail on the NPM install due to bugs between NPM and PhantomJS.
 
 You could use [NVM](https://github.com/creationix/nvm):
 
@@ -34,14 +34,15 @@ You'll need Grunt CLI to:
 	sudo npm install -g grunt-cli
 
 
-Then grab the package dependencies:
-
-	npm install
-
-
 Bower power (not sure if we should have this globally, but it's (obviously) what they recommend)
 
 	npm install bower -g
+
+
+Now install the project dependencies:
+
+	npm install
+	bower install
 
 
 ## Tests
