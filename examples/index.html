@@ -25,15 +25,31 @@
 		<ul class="examples">
 			<li>
 				<h3>Stacked bar chart</h3>
-				<div class="graph"></div>
+				<div class="graph-bar-stacked"></div>
 				<script>
 					var data = formatData(somaData.data);
 					var dateFormat = dateFormat = d3.time.format('%b %d');
 					var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
-					var el = d3.select('.graph')[0][0];
+					var el = d3.select('.graph-bar-stacked')[0][0];
 
 					var chart = d3.chart.bar(data, {
 						type: 'stacked',
+						xLabels: labels
+					}).render(el);
+				</script>
+			</li>
+
+			<li>
+				<h3>Grouped bar chart</h3>
+				<div class="graph-bar-grouped"></div>
+				<script>
+					var data = formatData(somaData.data);
+					var dateFormat = dateFormat = d3.time.format('%b %d');
+					var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+					var el = d3.select('.graph-bar-grouped')[0][0];
+
+					var chart = d3.chart.bar(data, {
+						type: 'grouped',
 						xLabels: labels
 					}).render(el);
 				</script>
