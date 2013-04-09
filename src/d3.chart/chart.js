@@ -23,6 +23,7 @@ d3.chart.prototype = {
   },
 
   // add interface methods
+  setData: function(data) { this.data = data; },
   setRanges: function() {},
   setMaxes: function() {},
   setAxes: function() {},

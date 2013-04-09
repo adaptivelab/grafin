@@ -7,8 +7,6 @@
 		<meta name="description" content="" />
 		<meta name="author" content="" />
 
-		<link rel="stylesheet" type="text/css" href="examples.css" />
-
 		<script src="../components/d3/d3.js"></script>
 
 		<script src="../src/d3.chart/chart.js"></script>
@@ -16,44 +14,22 @@
 
 		<script src="../spec/helpers/utils.js"></script>
   		<script src="../spec/fixtures/soma.js"></script>
+
+		  		
+		<script src="examples.js"></script>		  		
+  		<link rel="stylesheet" type="text/css" href="examples.css" />
+
 	</head>
 
 	<body>
-		<h1>Grafin</h1>
-		<h2>Examples</h2>
+		<h1>Grafin examples</h1>
 
 		<ul class="examples">
-			<li>
-				<h3>Stacked bar chart</h3>
-				<div class="graph-bar-stacked"></div>
-				<script>
-					var data = formatData(somaData.data);
-					var dateFormat = dateFormat = d3.time.format('%b %d');
-					var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
-					var el = d3.select('.graph-bar-stacked')[0][0];
-
-					var chart = d3.chart.bar(data, {
-						type: 'stacked',
-						xLabels: labels
-					}).render(el);
-				</script>
-			</li>
-
-			<li>
-				<h3>Grouped bar chart</h3>
-				<div class="graph-bar-grouped"></div>
-				<script>
-					var data = formatData(somaData.data);
-					var dateFormat = dateFormat = d3.time.format('%b %d');
-					var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
-					var el = d3.select('.graph-bar-grouped')[0][0];
-
-					var chart = d3.chart.bar(data, {
-						type: 'grouped',
-						xLabels: labels
-					}).render(el);
-				</script>
-			</li>
+			<li><a href="chart/bar-stacked.html">Stacked bar chart</a></li>
+			<li><a href="chart/bar-grouped.html">Grouped bar chart</a></li>
+			<li><a href="chart/bar-grouped-stacked.html">Stacked / Grouped bar chart</a></li>
 		</ul>
+
+		<div class="chart-frame"></div>
 	</body>
 </html>

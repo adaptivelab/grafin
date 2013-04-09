@@ -21,7 +21,10 @@ module.exports = function(grunt) {
             'src/d3.chart/chart.js',
             'src/d3.chart/bar.js'
           ],
-          helpers: ['spec/helpers/**/*.js', 'spec/fixtures/**/*.js'],
+          helpers: [
+            'spec/helpers/**/*.js',
+            'spec/fixtures/**/*.js'
+          ],
           specs: 'spec/**/*.js',
           outfile: 'SpecRunner.html'
         }

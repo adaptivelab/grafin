@@ -120,11 +120,12 @@ d3.chart.bar = function(data, options) {
     },
 
     setTo: function(opt) {
+      this.opts.type = opt;
       this.setToOpts[opt].call(this);
     },
 
     setToOpts: {
-      stacked: function() {
+      grouped: function() {
         var self = this;
         this.y.domain([0, this.yMax.stacked]);
         this.renderYAxis();
@@ -136,7 +137,7 @@ d3.chart.bar = function(data, options) {
           .attr('height', function(d) { return self.y(d.y0) - self.y(d.y0 + d.y); });
       },
       
-      grouped: function() {
+      stacked: function() {
         var self = this;
         this.y.domain([0, this.yMax.grouped]);
         
