@@ -1,0 +1,36 @@
+body {
+	color: #444;
+	font: 14px/1.4 "Helvetica Neue", Helvetica, sans-serif;
+	margin: 1em;
+	padding: 0;
+}
+
+h1 {
+	border-bottom: 1px solid #888;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+h2 {
+	font-weight: normal;
+}
+
+h3 {
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.examples li {
+	border-left: 5px solid #f4f4f4;
+	padding-left: 1em;
+	list-style: none;
+	margin-top: 5em;
+}
+
+.examples li:first-child {
+	margin-top: 0;
+}
+
+.d3-chart-axis {
+	font-size: 10px;
+}
