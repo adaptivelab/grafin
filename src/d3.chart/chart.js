@@ -18,7 +18,7 @@ d3.chart.prototype = {
     for (option in this.defaults) {
       options[option] = options[option] || this.defaults[option];
     } 
-    this.o = options;
+    this.opts = options;
     this.setCommon();
   },
 
@@ -31,7 +31,7 @@ d3.chart.prototype = {
   setCommon: function() {
     var prop;
     for (prop in this.defaultsCommon) {
-      this[prop] = this.o[prop] || this.defaultsCommon[prop];
+      this[prop] = this.opts[prop] || this.defaultsCommon[prop];
     }
     this.width = (this.width - this.margin.left - this.margin.right);
     this.height = (this.height - this.margin.top - this.margin.bottom);

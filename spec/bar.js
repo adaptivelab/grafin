@@ -1,29 +1,29 @@
 describe('Graphin', function() {
   describe('D3.Chart.Bar (Stacked and grouped bar chart)', function() {
-    var el
-      , selection
-      , chart
-      , callback
+    var sandbox = document.createElement('div')
+      , sandBoxAdded = false
       , data = formatData(somaData.data); // from helpers/utils
 
     beforeEach(function() {
-      el = d3.selectAll('.specSummary')[0];
-      el = el[this.id-1];
-      // TODO: This doesn't seem to work for the first one.
-      // Revise this so that it renders post test
+      // This is so the DOM has loaded
+      if (!sandBoxAdded) {
+        sandbox.setAttribute('class', 'sandbox');
+        sandbox.style.display = 'none';
+        document.getElementsByTagName('body')[0].appendChild(sandbox);
+      }
     });
 
     it ('Should render a new Chart.Bar object', function() {
-      var chart = d3.chart.bar(data).render(el);
+      var chart = d3.chart.bar(data).render(sandbox);
       expect((typeof chart).toLowerCase()).toBe('object');
     });
 
     it ('Check SoMA data is converted to D3 stack data', function() {
       var stack = d3.layout.stack();
 
-      // test data is passed to the D3 stack layout okay
-      // TODO: say why we did this
-      // Perhaps try do this with jasmine.notToThrow
+      // If the data is wrong, D3 will throw an error
+      // We don't want this as we are not testing D3, we are testing grafin
+      // This is why we do it like this
       try {
         stack(data);
       } catch(e) {
@@ -34,16 +34,15 @@ describe('Graphin', function() {
     it ('Should render a graph with the correct amount of data bars', function() {
       // test public interface and rendering
       var dateFormat = d3.time.format('%b %d')
-        , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+        , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) })
+        , datumCount = data.length * data[0].length;
 
       var chart = d3.chart.bar(data, {
-        type: 'grouped',
-        xLabels: labels
-      }).render(el);
+            type: 'grouped',
+            xLabels: labels
+          }).render(sandbox);
 
-      callback = function(selection, chart) {
-        expect(selection.selectAll('rect')[0].length).toBe(data.length * data[0].length);
-      }
+      expect(chart.barCount()).toBe(datumCount);
     });
 	});
 })

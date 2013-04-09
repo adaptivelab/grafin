@@ -13,7 +13,7 @@ d3.chart.bar = function(data, options) {
   }
 
   Chart.prototype = {
-    o: {},
+    opts: {},
     layerCount: 0,
     sectionsPerLayer: null,
     data: null,
@@ -50,7 +50,7 @@ d3.chart.bar = function(data, options) {
     setAxes: function() {
       this.xAxis = d3.svg.axis()
         .scale(this.x)
-        .tickValues(this.o.xLabels)
+        .tickValues(this.opts.xLabels)
         .tickSize(1)
         .tickPadding(10)
         .orient('bottom');
@@ -65,7 +65,7 @@ d3.chart.bar = function(data, options) {
     setColors: function() {
       this.color = d3.scale.linear()
         .domain([0, this.layerCount - 1])
-        .range([this.o.colorRange.bottom, this.o.colorRange.top]);
+        .range([this.opts.colorRange.bottom, this.opts.colorRange.top]);
     },
 
     render: function(el) {
@@ -115,7 +115,7 @@ d3.chart.bar = function(data, options) {
           .attr('transform', 'translate(0,' + this.height + ')')
           .call(this.xAxis);
 
-      this.setTo(this.o.type);
+      this.setTo(this.opts.type);
       return this;
     },
 
@@ -156,6 +156,10 @@ d3.chart.bar = function(data, options) {
         .attr('transform', 'translate(' + this.margin.left + ', 0)')
         .call(this.yAxis);
     },
+
+    barCount: function() {
+      return this.data.length * this.data[0].length;
+    }
   }
 
   d3.chart.add(Chart);
