@@ -1,0 +1,32 @@
+<h2>Grouped to stacked bar chart</h2>
+<div class="chart-controls">
+	<label for="switch-bar-chart-grouped">
+		<input type="radio" name="switch-bar-chart" value="grouped" id="switch-bar-chart-grouped" checked="checked" />
+		Grouped
+	</label>
+	<label for="switch-bar-chart-stacked">
+		<input type="radio" name="switch-bar-chart" value="stacked" id="switch-bar-chart-stacked" />
+		Stacked
+	</label>
+</div>
+<div class="chart"></div>
+
+<script>
+	var data = formatData(somaData.data);
+	var dateFormat = dateFormat = d3.time.format('%b %d');
+	var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+	var el = d3.select('.chart')[0][0];
+
+	var chart = d3.chart.bar(data, {
+		type: 'grouped',
+		xLabels: labels
+	}).render(el);
+
+
+	d3.selectAll('[name="switch-bar-chart"]')[0].forEach(function(el, i) {
+		el.onclick = function() {
+			var chartType = this.value;
+			chart.setTo(chartType);
+		}
+	});
+</script>

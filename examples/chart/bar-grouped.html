@@ -1,0 +1,13 @@
+<h2>Grouped bar chart</h2>
+<div class="chart"></div>
+<script>
+	var data = formatData(somaData.data);
+	var dateFormat = dateFormat = d3.time.format('%b %d');
+	var labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) });
+	var el = d3.select('.chart')[0][0];
+
+	var chart = d3.chart.bar(data, {
+		type: 'grouped',
+		xLabels: labels
+	}).render(el);
+</script>

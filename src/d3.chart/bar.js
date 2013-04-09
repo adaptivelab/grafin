@@ -4,12 +4,7 @@ d3.chart.bar = function(data, options) {
 
   var Chart = function(data, options) {
     this.setOptions(options);
-
-    this.setData(data);
-    this.setRanges();
-    this.setMaxes();
-    this.setAxes();
-    this.setColors();
+    if (data) { this.setData(data); }
   }
 
   Chart.prototype = {
@@ -17,17 +12,27 @@ d3.chart.bar = function(data, options) {
     layerCount: 0,
     sectionsPerLayer: null,
     data: null,
-    class: ' d3-chart-bar',
+    className: 'd3-chart-bar',
     defaults: {
       type: 'stacked',
       colorRange: { bottom: '#212121', top: '#555555' },
       xLabels: null
     },
 
+    init: function() {
+
+    },
+
     setData: function(data) {
       this.data = d3.layout.stack()(data);
       this.layerCount = data.length;
       this.sectionsPerLayer = data[0].length;
+
+      // These are here as they can only be set once the data is set
+      this.setRanges();
+      this.setMaxes();
+      this.setAxes();
+      this.setColors();
     },
 
     setRanges: function() {
@@ -93,7 +98,7 @@ d3.chart.bar = function(data, options) {
       var self = this;
 
       this.svg = d3.select(this.el).append('svg')
-        .attr('class', this.primaryClass + ' ' + this.class)
+        .attr('class', this.primaryClass + ' ' + this.className)
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
