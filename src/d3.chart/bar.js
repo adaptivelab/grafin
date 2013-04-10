@@ -19,12 +19,12 @@ d3.chart.bar = function(data, options) {
       xLabels: null
     },
 
-    init: function() {
-
-    },
-
     setData: function(data) {
       this.data = d3.layout.stack()(data);
+
+      // These are used to work out the ranges / maxes etc
+      // Layer count would be how many variables per group on the x-axis
+      // Sections per layer would be the amount of variables on the x-axis
       this.layerCount = data.length;
       this.sectionsPerLayer = data[0].length;
 
@@ -54,6 +54,9 @@ d3.chart.bar = function(data, options) {
     setMaxes: function() {
       if (!this.data) { throw new Error('d3.chart.bar: No data set. Cannot setMaxes.'); }
       
+      // loop through all the layers to get the max across all data
+      // stacked: Get the max of the sum of the layer groups
+      // grouped: get the max in that layer
       this.yMax = {
         stacked: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); }),
         grouped: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
@@ -65,6 +68,8 @@ d3.chart.bar = function(data, options) {
     setAxes: function() {
       if (!this.data) { throw new Error('d3.chart.bar: No data set. Cannot setAxes.'); }
 
+      // Pretty standard axis
+      // The Y Axis however will change depending on whether we're stacked or grouped
       this.xAxis = d3.svg.axis()
         .scale(this.x)
         .tickValues(this.opts.xLabels)
@@ -95,26 +100,24 @@ d3.chart.bar = function(data, options) {
       var self = this;
       this.el = el;
 
-      // Comment code here (add D3 docs links)
+      // Doing it this way allows us to keep it in context of Chart
+      // While having access to the this variable
+      // See http://bost.ocks.org/mike/chart/
       d3.select(this.el)
         .datum(this.data)
         .call(function(selection) {
-          self.createChart(selection);
+          selection.each(function(data) {
+            self.createChart(data);
+          });
         });
 
       return this;
     },
 
-    createChart: function(selection) {
-      var self = this;
-      selection.each(function(data) {
-        self.chart(data);
-      });
-    },
-
-    chart: function(data) {
+    createChart: function(data) {
       var self = this;
 
+      // Draw SVG
       this.svg = d3.select(this.el).append('svg')
         .attr('class', [this.primaryClassName, this.className].join(' '))
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -122,17 +125,21 @@ d3.chart.bar = function(data, options) {
       .append('g')
         .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
+      // Draw each layer
       this.layer = this.svg.selectAll('.d3-chart-layer')
           .data(this.data)
         .enter().append('g')
           .attr('class', 'd3-chart-layer')
           .style('fill', function(d, i) { return self.color(i); });
 
+      // each layer now get the relevant bars drawn into it
       this.rect = this.layer.selectAll('rect')
           .data(function(d) { return d; })
         .enter().append('rect') 
           .attr('data-value', function(d) { return d.y; });
 
+      // Draw x-axis
+      // The y-axis is drawn when setting the chart type as the domain of Y changes
       this.svg.append('g')
           .attr('class', 'd3-chart-x d3-chart-axis')
           .attr('transform', 'translate(0,' + this.height + ')')
@@ -184,6 +191,7 @@ d3.chart.bar = function(data, options) {
     },
 
     barCount: function() {
+      // This is just a convenience function
       return this.data.length * this.data[0].length;
     }
   }
