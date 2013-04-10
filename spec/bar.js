@@ -28,15 +28,13 @@ describe('Graphin', function() {
       it ('#setRanges', function() {
         // We use this as Jasmine doesn't run the function in the correct scope
         var testFunc;
+        testFunc = chart.setRanges.bind(chart);
 
         // Expect ranges not to work if there is no data
-        testFunc = chart.setRanges.bind(chart, true);
         expect(testFunc).toThrow();
 
         // Set the data
         chart.setData(data);
-        
-        testFunc = chart.setRanges.bind(chart, true);
         expect(testFunc).not.toThrow();
 
         // check the parameters are set
@@ -48,19 +46,37 @@ describe('Graphin', function() {
         // This is very similar to the #setRanges
         var testFunc;
         testFunc = chart.setMaxes.bind(chart);
+
         expect(testFunc).toThrow();
         chart.setData(data);
-        testFunc = chart.setMaxes.bind(chart, true);
         expect(testFunc).not.toThrow();
+
         expect(chart.yMax).not.toBeNull();
       });
       
       it ('#setAxes', function() {
+        // This is very similar to the #setRanges
+        var testFunc;
+        testFunc = chart.setAxes.bind(chart);
+        
+        expect(testFunc).toThrow();
+        chart.setData(data);
+        expect(testFunc).not.toThrow();
 
+        expect(chart.xAxis).not.toBeNull();
+        expect(chart.yAxis).not.toBeNull();
       });
 
       it ('#setColors', function() {
+        // This is very similar to the #setRanges
+        var testFunc;
+        testFunc = chart.setColors.bind(chart);
+        
+        expect(testFunc).toThrow();
+        chart.setData(data);
+        expect(testFunc).not.toThrow();
 
+        expect(chart.color).not.toBeNull();
       });
 
       it ('#setTo', function() {
