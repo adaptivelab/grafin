@@ -20,6 +20,10 @@ describe('Graphin', function() {
         chart = d3.chart.bar();
       });
 
+      // A lot of the set functions are jusr checking that they set what they're meant to
+      // We could check that the variables are being set correctly
+      // But i think this is more for D3
+
       it ('#setData', function() {
         chart.setData(data);
         expect(chart.data).not.toBeNull();
@@ -37,7 +41,7 @@ describe('Graphin', function() {
         chart.setData(data);
         expect(testFunc).not.toThrow();
 
-        // check the parameters are set
+        // Check the parameters are set
         expect(chart.x).not.toBeNull();
         expect(chart.y).not.toBeNull();
       });
@@ -80,11 +84,14 @@ describe('Graphin', function() {
       });
 
       it ('#setTo', function() {
-        var changedType = 'grouped';
-        chart.setData(data);
-        expect(chart.type).toEqual(chart.opts.type);
+        var defaultType = 'stacked',
+            changedType = 'grouped';
+        
+        chart.setData(data).render(sandbox);
+
+        expect(chart.opts.type).toEqual(defaultType);
         chart.setTo(changedType);
-        expect(chart.type).toEqual(changedType);
+        expect(chart.opts.type).toEqual(changedType);
       });
     });
 

@@ -33,6 +33,8 @@ d3.chart.bar = function(data, options) {
       this.setMaxes();
       this.setAxes();
       this.setColors();
+
+      return this;
     },
 
     setRanges: function() {
@@ -45,6 +47,8 @@ d3.chart.bar = function(data, options) {
       this.y = d3.scale.linear()
         .domain([0, this.yMax])
         .range([this.height, 0]);
+
+      return this;
     },
 
     setMaxes: function() {
@@ -54,6 +58,8 @@ d3.chart.bar = function(data, options) {
         stacked: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); }),
         grouped: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
       }
+
+      return this;
     },
 
     setAxes: function() {
@@ -71,6 +77,8 @@ d3.chart.bar = function(data, options) {
         .tickSize(1)
         .tickPadding(2)
         .orient('left');
+
+      return this;
     },
 
     setColors: function() {
@@ -79,6 +87,8 @@ d3.chart.bar = function(data, options) {
       this.color = d3.scale.linear()
         .domain([0, this.layerCount - 1])
         .range([this.opts.colorRange.bottom, this.opts.colorRange.top]);
+
+      return this;
     },
 
     render: function(el) {
@@ -135,6 +145,8 @@ d3.chart.bar = function(data, options) {
     setTo: function(opt) {
       this.opts.type = opt;
       this.setToOpts[opt].call(this);
+
+      return this;
     },
 
     setToOpts: {
