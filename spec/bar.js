@@ -1,9 +1,9 @@
 describe('Graphin', function() {
   
   describe('D3.Chart.Bar (Stacked and grouped bar chart)', function() {
-    var data = formatData(somaData.data)
-      , sandbox = document.createElement('div')
-      , sandBoxAdded = false;
+    var data = formatData(somaData.data),
+        sandbox = document.createElement('div'),
+        sandBoxAdded = false;
 
     beforeEach(function() {
       // This is so the DOM has loaded
@@ -80,7 +80,11 @@ describe('Graphin', function() {
       });
 
       it ('#setTo', function() {
-
+        var changedType = 'grouped';
+        chart.setData(data);
+        expect(chart.type).toEqual(chart.opts.type);
+        chart.setTo(changedType);
+        expect(chart.type).toEqual(changedType);
       });
     });
 
