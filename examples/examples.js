@@ -11,6 +11,9 @@
         });
         return false;
       }
+
+      // click the first one
+      if (i === 0) { el.click(); }
     });
   }
 })()
