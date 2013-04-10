@@ -1,0 +1,34 @@
+body {
+	color: #777;
+	font: 14px/1.4 "Helvetica Neue", Helvetica, sans-serif;
+	margin: 1em;
+	padding: 0;
+}
+
+h1 {
+	border-bottom: 1px solid #888;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+h2 {
+	border-top: 5px solid #f4f4f4;
+	font-size: 16px;
+	font-weight: normal;
+	margin-bottom: 0;
+	padding-top: .2em;
+}
+
+.examples li {
+	list-style: none;
+}
+
+.chart-controls {
+	background: #f4f4f4;
+	margin-top: .5em;
+	padding: 1em;
+}
+
+.d3-chart-axis {
+	font-size: 10px;
+}
