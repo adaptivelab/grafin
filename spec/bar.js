@@ -12,6 +12,7 @@ describe('Graphin', function() {
         sandbox.style.display = 'none';
         document.getElementsByTagName('body')[0].appendChild(sandbox);
       }
+      sandbox.innerHTML = ''; // empty the box out
     });
 
     describe('Unit tests', function() {
@@ -97,36 +98,40 @@ describe('Graphin', function() {
 
     describe ('Integration tests', function() {
       it ('Should render a new Chart.Bar object', function() {
-        // var chart = d3.chart.bar(data).render(sandbox);
-        // expect(typeof chart).toBe('object');
+        var chart = d3.chart.bar(data);
+        expect(typeof chart).toBe('object');
       });
 
+      it ('Should render a graph in the given element', function() {
+        var chart = d3.chart.bar(data).render(sandbox),
+            chartEl = sandbox.getElementsByTagName('svg')[0];
+
+        // Check there's an element there
+        expect(chartEl).not.toBeUndefined();
+
+        // And make sure it's the right one
+        expect(chartEl.getAttribute('class')).toBe([chart.primaryClassName, chart.className].join(' '));
+      })
+
       it ('Check SoMA data is converted to D3 stack data', function() {
-        var stack = d3.layout.stack()
-          // , tmpData = formatData(somaData);
+        var stack = d3.layout.stack();
 
         // If the data is wrong, D3 will throw an error
         // We don't want this as we are not testing D3, we are testing grafin
         // This is why we do it like this
         try {
-          // stack(tmpData);
+          stack(data);
         } catch(e) {
           throw new Error('Data not compatible with d3.layout.stack()');
         }
       });
 
       it ('Should render a graph with the correct amount of data bars', function() {
-        // // test public interface and rendering
-        // var dateFormat = d3.time.format('%b %d')
-        //   , labels = somaData.labels.map(function(d, i) { return dateFormat(new Date(d)) })
-        //   , datumCount = data.length * data[0].length;
+        // test public interface and rendering
+        var datumCount = data.length * data[0].length,
+            chart = d3.chart.bar(data).render(sandbox);
 
-        // var chart = d3.chart.bar(data, {
-        //       type: 'grouped',
-        //       xLabels: labels
-        //     }).render(sandbox);
-
-        // expect(chart.barCount()).toBe(datumCount);
+        expect(chart.barCount()).toBe(datumCount);
       });
     });
 	});

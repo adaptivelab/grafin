@@ -116,7 +116,7 @@ d3.chart.bar = function(data, options) {
       var self = this;
 
       this.svg = d3.select(this.el).append('svg')
-        .attr('class', this.primaryClass + ' ' + this.className)
+        .attr('class', [this.primaryClassName, this.className].join(' '))
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
