@@ -35,9 +35,7 @@ d3.chart.bar = function(data, options) {
       this.setColors();
     },
 
-    setRanges: function(a) {
-      console.log(a);
-      if (a) { console.log(this.data); }
+    setRanges: function() {
       if (!this.data) { throw new Error('d3.chart.bar: You need to set the data before setting the ranges'); }
 
       this.x = d3.scale.ordinal()

@@ -26,13 +26,20 @@ describe('Graphin', function() {
       });
 
       it ('#setRanges', function() {
-        var setRangesFunc;
+        // We use this as Jasmine doesn't run the function in the correct scope
+        var testFunc;
 
-        // expect ranges not to work if there is no data
-        expect(chart.setRanges).toThrow();
+        // Expect ranges not to work if there is no data
+        testFunc = chart.setRanges.bind(chart, true)
+        expect(testFunc).toThrow();
+        
+        // Set the data
         chart.setData(data);
-        setRangesFunc = chart.setRanges.bind(chart, true);
-        expect(setRangesFunc).not.toThrow();
+        
+        testFunc = chart.setRanges.bind(chart, true);
+        expect(testFunc).not.toThrow();
+
+        console.log(chart.y)
       });
 
       it ('#setMaxes', function() {
