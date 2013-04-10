@@ -30,7 +30,7 @@ describe('Graphin', function() {
         var testFunc;
 
         // Expect ranges not to work if there is no data
-        testFunc = chart.setRanges.bind(chart, true)
+        testFunc = chart.setRanges.bind(chart, true);
         expect(testFunc).toThrow();
 
         // Set the data
@@ -45,7 +45,14 @@ describe('Graphin', function() {
       });
 
       it ('#setMaxes', function() {
-
+        // This is very similar to the #setRanges
+        var testFunc;
+        testFunc = chart.setMaxes.bind(chart);
+        expect(testFunc).toThrow();
+        chart.setData(data);
+        testFunc = chart.setMaxes.bind(chart, true);
+        expect(testFunc).not.toThrow();
+        expect(chart.yMax).not.toBeNull();
       });
       
       it ('#setAxes', function() {

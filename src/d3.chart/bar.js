@@ -36,7 +36,7 @@ d3.chart.bar = function(data, options) {
     },
 
     setRanges: function() {
-      if (!this.data) { throw new Error('d3.chart.bar: You need to set the data before setting the ranges'); }
+      if (!this.data) { throw new Error('d3.chart.bar: No data set. Cannot setRanges.'); }
 
       this.x = d3.scale.ordinal()
         .domain(d3.range(this.sectionsPerLayer))
@@ -48,6 +48,7 @@ d3.chart.bar = function(data, options) {
     },
 
     setMaxes: function() {
+      if (!this.data) { throw new Error('d3.chart.bar: No data set. Cannot setMaxes.'); }
       this.yMax = {
         stacked: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); }),
         grouped: d3.max(this.data, function(layer) { return d3.max(layer, function(d) { return d.y; }); })
