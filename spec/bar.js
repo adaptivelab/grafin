@@ -26,12 +26,13 @@ describe('Graphin', function() {
       });
 
       it ('#setRanges', function() {
+        var setRangesFunc;
+
+        // expect ranges not to work if there is no data
         expect(chart.setRanges).toThrow();
         chart.setData(data);
-        var f = chart.setRanges.bind(chart, true);
-        console.log(f);
-        f();
-        expect();
+        setRangesFunc = chart.setRanges.bind(chart, true);
+        expect(setRangesFunc).not.toThrow();
       });
 
       it ('#setMaxes', function() {
