@@ -15,7 +15,10 @@ describe('Graphin', function() {
     });
 
     describe('Unit tests', function() {
-      var chart = d3.chart.bar();
+      var chart;
+      beforeEach(function() {
+        chart = d3.chart.bar();
+      });
 
       it ('#setData', function() {
         chart.setData(data);
@@ -23,7 +26,12 @@ describe('Graphin', function() {
       });
 
       it ('#setRanges', function() {
-
+        expect(chart.setRanges).toThrow();
+        chart.setData(data);
+        var f = chart.setRanges.bind(chart, true);
+        console.log(f);
+        f();
+        expect();
       });
 
       it ('#setMaxes', function() {
